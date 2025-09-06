@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://9000-firebase-studio-1757068716727.cluster-yylgzpipxrar4v4a72liastuqy.cloudworkstations.dev',
-    'https://joyful-mandazi-795448.netlify.app',
+    'https://attendance-gopi.netlify.app',
 ]
 
 
