@@ -32,6 +32,32 @@ class TeacherViewSet(viewsets.ModelViewSet):
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+ 
+    def create(self, request, *args, **kwargs):
+        """
+        Creates a course and associates it with a teacher.
+        """
+        # The frontend sends 'teacherId', which we use to find the Teacher object.
+        teacher_id = request.data.get('teacherId')
+        if not teacher_id:
+            return Response({'error': 'Teacher ID not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            teacher = Teacher.objects.get(id=teacher_id)
+        except Teacher.DoesNotExist:
+            return Response({'error': 'Teacher not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # We create a mutable copy of the request data to pass to the serializer.
+        # We replace 'teacherId' with a 'teacher' field containing the teacher's pk.
+        data = request.data.copy()
+        data.pop('teacherId')
+        data['teacher'] = teacher.id
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=True, methods=['post'], url_path='enroll')
     def enroll(self, request, pk=None):

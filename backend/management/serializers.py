@@ -13,6 +13,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CourseSerializer(serializers.ModelSerializer):
+    students = serializers.PrimaryKeyRelatedField(many=True, queryset=Student.objects.all(), required=False)
     class Meta:
         model = Course
         fields = '__all__'
