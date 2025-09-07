@@ -93,6 +93,14 @@ class AttendanceRecordViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(detail=False, methods=['delete'], url_path='all')
+    def delete_all(self, request):
+        """
+        Deletes all attendance records.
+        """
+        AttendanceRecord.objects.all().delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 # This new ViewSet is needed to handle the "deleteAllUsers" call from the frontend
 class UserViewSet(viewsets.ViewSet):
     """
