@@ -32,7 +32,7 @@ class TeacherViewSet(viewsets.ModelViewSet):
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
- 
+    
     def create(self, request, *args, **kwargs):
         """
         Creates a course and associates it with a teacher.
