@@ -13,11 +13,11 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     teacherId = serializers.PrimaryKeyRelatedField(source='teacher', queryset=Teacher.objects.all())
-    students = serializers.PrimaryKeyRelatedField(many=True, queryset=Student.objects.all(), required=False)
+    studentIds = serializers.PrimaryKeyRelatedField(many=True, queryset=Student.objects.all(), source='students', required=False)
 
     class Meta:
         model = Course
-        fields = ['id', 'name', 'teacherId', 'students']
+        fields = ['id', 'name', 'teacherId', 'studentIds']
 
 class AttendanceRecordSerializer(serializers.ModelSerializer):
     class Meta:
