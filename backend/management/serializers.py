@@ -20,6 +20,9 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'teacherId', 'studentIds']
 
 class AttendanceRecordSerializer(serializers.ModelSerializer):
+    studentId = serializers.PrimaryKeyRelatedField(source='student', queryset=Student.objects.all())
+    courseId = serializers.PrimaryKeyRelatedField(source='course', queryset=Course.objects.all())
+
     class Meta:
         model = AttendanceRecord
-        fields = '__all__'
+        fields = ['id', 'studentId', 'courseId', 'date', 'status']
